@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Translation - Universal Translate Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-video"></i> Sign Language Translation</h1>
+            <p>Translate sign language through camera input</p>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="translation-interface">
+                <!-- Camera Preview -->
+                <div class="camera-container">
+                    <div class="camera-preview" id="cameraPreview">
+                        <i class="fas fa-camera fa-3x" style="color: #666;"></i>
+                        <p>Camera preview will appear here</p>
+                    </div>
+                    
+                    <div class="camera-controls">
+                        <button id="startCamera" class="camera-btn">
+                            <i class="fas fa-play"></i> Start Camera
+                        </button>
+                        <button id="captureBtn" class="camera-btn" disabled>
+                            <i class="fas fa-camera"></i> Capture Gesture
+                        </button>
+                        <button id="stopCamera" class="camera-btn stop" disabled>
+                            <i class="fas fa-stop"></i> Stop Camera
+                        </button>
+                    </div>
+
+                    <!-- Real-time Detection Toggle -->
+                    <div class="detection-toggle">
+                        <label>
+                            <input type="checkbox" id="realtimeDetection">
+                            Enable Real-time Gesture Detection
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="results">
+                    <h3>Detected Gesture:</h3>
+                    <div id="gestureResult" class="result-box">
+                        No gesture detected yet. Start camera and make a sign language gesture.
+                    </div>
+                    
+                    <h3>Translation:</h3>
+                    <div id="gestureTranslation" class="result-box">
+                        Translation will appear here...
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="speakTranslation" class="action-btn" disabled>
+                            <i class="fas fa-volume-up"></i> Speak Translation
+                        </button>
+                        <button id="saveGesture" class="action-btn">
+                            <i class="fas fa-save"></i> Save to History
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sign Language Guide -->
+                <div class="sign-language-guide">
+                    <h3><i class="fas fa-hands"></i> Common ASL Gestures Reference</h3>
+                    <div class="gesture-list">
+                        <div class="gesture-item">
+                            <div class="gesture-icon">👋</div>
+                            <strong>Hello</strong>
+                            <p>Wave hand</p>
+                        </div>
+                        <div class="gesture-item">
+                            <div class="gesture-icon">👍</div>
+                            <strong>Thank You</strong>
+                            <p>Thumb from chin forward</p>
+                        </div>
+                        <div class="gesture-item">
+                            <div class="gesture-icon">👌</div>
+                            <strong>OK</strong>
+                            <p>Circle with thumb & index</p>
+                        </div>
+                        <div class="gesture-item">
+                            <div class="gesture-icon">🤟</div>
+                            <strong>I Love You</strong>
+                            <p>Pinky, index, thumb extended</p>
+                        </div>
+                        <div class="gesture-item">
+                            <div class="gesture-icon">✋</div>
+                            <strong>Stop</strong>
+                            <p>Palm facing outward</p>
+                        </div>
+                        <div class="gesture-item">
+                            <div class="gesture-icon">👉</div>
+                            <strong>Help</strong>
+                            <p>Thumb on palm, other hand support</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gesture History -->
+                <div class="gesture-history">
+                    <h3><i class="fas fa-history"></i> Recent Gestures</h3>
+                    <div id="historyList" class="history-list">
+                        <!-- History items will be added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/camera.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Translation - Universal Translate Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-code"></i> Morse Code Translation</h1>
+            <p>Encode and decode Morse code messages</p>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="translation-interface">
+                <!-- Mode Selection -->
+                <div class="mode-selection">
+                    <div class="mode-tabs">
+                        <button class="mode-tab active" data-mode="encode">
+                            <i class="fas fa-lock"></i> Encode to Morse
+                        </button>
+                        <button class="mode-tab" data-mode="decode">
+                            <i class="fas fa-lock-open"></i> Decode from Morse
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Input/Output Areas -->
+                <div class="morse-interface">
+                    <!-- Text Input for Encoding -->
+                    <div class="input-section encode-section active">
+                        <h3>Text to Encode</h3>
+                        <textarea 
+                            id="textInput" 
+                            placeholder="Enter text to convert to Morse code..." 
+                            rows="4"
+                        >SOS Hello World</textarea>
+                        
+                        <div class="input-actions">
+                            <button id="encodeBtn" class="action-btn">
+                                <i class="fas fa-lock"></i> Encode to Morse
+                            </button>
+                            <button id="playMorse" class="action-btn" disabled>
+                                <i class="fas fa-play"></i> Play Morse
+                            </button>
+                            <button id="clearEncode" class="action-btn secondary">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Morse Input for Decoding -->
+                    <div class="input-section decode-section">
+                        <h3>Morse Code to Decode</h3>
+                        <textarea 
+                            id="morseInput" 
+                            placeholder="Enter Morse code (e.g., ... --- ... for SOS)..." 
+                            rows="4"
+                        >... --- ...  .... . .-.. .-.. ---  .-- --- .-. .-.. -..</textarea>
+                        
+                        <div class="morse-help">
+                            <strong>Morse Code Format:</strong>
+                            <ul>
+                                <li>Dot: . (period) or • (bullet)</li>
+                                <li>Dash: - (hyphen) or – (en dash)</li>
+                                <li>Letter space: (single space)</li>
+                                <li>Word space: / (slash) or &nbsp;&nbsp; (double space)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="input-actions">
+                            <button id="decodeBtn" class="action-btn">
+                                <i class="fas fa-lock-open"></i> Decode to Text
+                            </button>
+                            <button id="clearDecode" class="action-btn secondary">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Display -->
+                    <div class="results-section">
+                        <h3>Result</h3>
+                        <div id="morseResult" class="morse-result">
+                            <div class="result-placeholder">
+                                <i class="fas fa-code fa-2x"></i>
+                                <p>Your Morse code translation will appear here</p>
+                            </div>
+                        </div>
+                        
+                        <div class="result-actions">
+                            <button id="copyResult" class="action-btn" disabled>
+                                <i class="fas fa-copy"></i> Copy Result
+                            </button>
+                            <button id="speakResult" class="action-btn" disabled>
+                                <i class="fas fa-volume-up"></i> Speak Result
+                            </button>
+                            <button id="saveResult" class="action-btn secondary">
+                                <i class="fas fa-save"></i> Save to History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Morse Code Reference -->
+                <div class="morse-reference">
+                    <h3><i class="fas fa-book"></i> Morse Code Reference Chart</h3>
+                    
+                    <div class="reference-tabs">
+                        <button class="ref-tab active" data-category="letters">Letters A-Z</button>
+                        <button class="ref-tab" data-category="numbers">Numbers 0-9</button>
+                        <button class="ref-tab" data-category="punctuation">Punctuation</button>
+                        <button class="ref-tab" data-category="prosigns">Prosigns</button>
+                    </div>
+                    
+                    <div class="reference-content">
+                        <!-- Letters -->
+                        <div class="ref-category letters active">
+                            <div class="morse-grid">
+                                <!-- Letters A-Z will be generated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Numbers -->
+                        <div class="ref-category numbers">
+                            <div class="morse-grid">
+                                <!-- Numbers 0-9 will be generated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Punctuation -->
+                        <div class="ref-category punctuation">
+                            <div class="morse-grid">
+                                <!-- Punctuation will be generated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- Prosigns -->
+                        <div class="ref-category prosigns">
+                            <div class="morse-grid">
+                                <div class="morse-item">
+                                    <span class="character">SOS</span>
+                                    <span class="code">···−−−···</span>
+                                    <span class="meaning">Distress signal</span>
+                                </div>
+                                <div class="morse-item">
+                                    <span class="character">CT</span>
+                                    <span class="code">−·−·−</span>
+                                    <span class="meaning">Start transmission</span>
+                                </div>
+                                <div class="morse-item">
+                                    <span class="character">AR</span>
+                                    <span class="code">·−·−·</span>
+                                    <span class="meaning">End of message</span>
+                                </div>
+                                <div class="morse-item">
+                                    <span class="character">AS</span>
+                                    <span class="code">·−···</span>
+                                    <span class="meaning">Wait</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Practice Area -->
+                <div class="practice-area">
+                    <h3><i class="fas fa-graduation-cap"></i> Morse Code Practice</h3>
+                    
+                    <div class="practice-controls">
+                        <button id="startPractice" class="action-btn">
+                            <i class="fas fa-play"></i> Start Practice
+                        </button>
+                        <select id="practiceLevel">
+                            <option value="easy">Easy (Letters only)</option>
+                            <option value="medium">Medium (Letters + Numbers)</option>
+                            <option value="hard">Hard (Full character set)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="practice-display">
+                        <div id="practicePrompt" class="practice-prompt">
+                            Click "Start Practice" to begin
+                        </div>
+                        <input 
+                            type="text" 
+                            id="practiceInput" 
+                            placeholder="Type the Morse code you hear..." 
+                            disabled
+                        >
+                        <div id="practiceFeedback" class="practice-feedback"></div>
+                    </div>
+                </div>
+
+                <!-- History -->
+                <div class="morse-history">
+                    <h3><i class="fas fa-history"></i> Translation History</h3>
+                    <div id="morseHistory" class="history-container">
+                        <!-- History items will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/morse.js"></script>
+</body>
+</html>

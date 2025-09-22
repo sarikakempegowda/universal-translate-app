@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan & Translate - Universal Translate Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Include Tesseract.js for OCR -->
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-camera"></i> Scan & Translate</h1>
+            <p>Extract text from images and translate instantly</p>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="translation-interface">
+                <!-- Upload/Scan Area -->
+                <div class="scan-section">
+                    <div class="upload-options">
+                        <div class="upload-option active" data-method="upload">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Image</span>
+                        </div>
+                        <div class="upload-option" data-method="camera">
+                            <i class="fas fa-camera"></i>
+                            <span>Take Photo</span>
+                        </div>
+                        <div class="upload-option" data-method="url">
+                            <i class="fas fa-link"></i>
+                            <span>Image URL</span>
+                        </div>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="upload-area active" id="uploadArea">
+                        <div class="drop-zone" id="dropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <h3>Drop image here or click to browse</h3>
+                            <p>Supports JPG, PNG, GIF (Max: 5MB)</p>
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                            <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
+                                Browse Files
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Area -->
+                    <div class="camera-area" id="cameraArea">
+                        <div class="camera-preview">
+                            <video id="cameraVideo" autoplay playsinline></video>
+                            <canvas id="cameraCanvas" hidden></canvas>
+                        </div>
+                        <div class="camera-controls">
+                            <button id="startCamera" class="action-btn">
+                                <i class="fas fa-camera"></i> Start Camera
+                            </button>
+                            <button id="capturePhoto" class="action-btn" disabled>
+                                <i class="fas fa-camera-retro"></i> Capture
+                            </button>
+                            <button id="stopCamera" class="action-btn secondary" disabled>
+                                <i class="fas fa-stop"></i> Stop Camera
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- URL Area -->
+                    <div class="url-area" id="urlArea">
+                        <div class="url-input">
+                            <input type="url" id="imageUrl" placeholder="Enter image URL...">
+                            <button id="loadUrl" class="action-btn">
+                                <i class="fas fa-download"></i> Load Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Preview -->
+                <div class="preview-section">
+                    <h3>Image Preview</h3>
+                    <div id="imagePreview" class="image-preview">
+                        <div class="preview-placeholder">
+                            <i class="fas fa-image fa-3x"></i>
+                            <p>No image selected</p>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-actions">
+                        <button id="scanImage" class="action-btn" disabled>
+                            <i class="fas fa-search"></i> Scan Text
+                        </button>
+                        <button id="clearImage" class="action-btn secondary">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- OCR Results -->
+                <div class="ocr-results">
+                    <h3>Extracted Text</h3>
+                    <div class="ocr-controls">
+                        <select id="ocrLanguage">
+                            <option value="eng">English</option>
+                            <option value="spa">Spanish</option>
+                            <option value="fra">French</option>
+                            <option value="deu">German</option>
+                            <option value="ita">Italian</option>
+                            <option value="por">Portuguese</option>
+                            <option value="rus">Russian</option>
+                            <option value="chi_sim">Chinese</option>
+                            <option value="jpn">Japanese</option>
+                            <option value="kor">Korean</option>
+                            <option value="hin">Hindi</option>
+                            <option value="ara">Arabic</option>
+                        </select>
+                        <button id="editText" class="action-btn secondary">
+                            <i class="fas fa-edit"></i> Edit Text
+                        </button>
+                    </div>
+                    
+                    <div id="ocrResult" class="ocr-result">
+                        <div class="result-placeholder">
+                            <i class="fas fa-font fa-2x"></i>
+                            <p>Extracted text will appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translation Section -->
+                <div class="translation-section">
+                    <h3>Translation</h3>
+                    <div class="translation-controls">
+                        <select id="translationLanguage">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ar">Arabic</option>
+                        </select>
+                        <button id="translateText" class="action-btn" disabled>
+                            <i class="fas fa-language"></i> Translate
+                        </button>
+                    </div>
+                    
+                    <div id="translationResult" class="translation-result">
+                        <div class="result-placeholder">
+                            <i class="fas fa-globe fa-2x"></i>
+                            <p>Translation will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button id="copyTranslation" class="action-btn" disabled>
+                            <i class="fas fa-copy"></i> Copy Translation
+                        </button>
+                        <button id="speakTranslation" class="action-btn" disabled>
+                            <i class="fas fa-volume-up"></i> Speak Translation
+                        </button>
+                        <button id="saveResult" class="action-btn secondary">
+                            <i class="fas fa-save"></i> Save Result
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tips & Best Practices -->
+                <div class="scan-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Better OCR Results</h3>
+                    <div class="tips-grid">
+                        <div class="tip-item">
+                            <i class="fas fa-sun"></i>
+                            <strong>Good Lighting</strong>
+                            <p>Ensure the image is well-lit without shadows</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-align-left"></i>
+                            <strong>Clear Text</strong>
+                            <p>Use clear, high-contrast fonts</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-crop"></i>
+                            <strong>Straight Alignment</strong>
+                            <p>Keep text horizontal and avoid perspective distortion</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-expand"></i>
+                            <strong>High Resolution</strong>
+                            <p>Use high-resolution images for better accuracy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/scan.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan & Translate - Universal Translate Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Include Tesseract.js for OCR -->
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-camera"></i> Scan & Translate</h1>
+            <p>Extract text from images and translate instantly</p>
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="translation-interface">
+                <!-- Upload/Scan Area -->
+                <div class="scan-section">
+                    <div class="upload-options">
+                        <div class="upload-option active" data-method="upload">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Image</span>
+                        </div>
+                        <div class="upload-option" data-method="camera">
+                            <i class="fas fa-camera"></i>
+                            <span>Take Photo</span>
+                        </div>
+                        <div class="upload-option" data-method="url">
+                            <i class="fas fa-link"></i>
+                            <span>Image URL</span>
+                        </div>
+                    </div>
+
+                    <!-- Upload Area -->
+                    <div class="upload-area active" id="uploadArea">
+                        <div class="drop-zone" id="dropZone">
+                            <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                            <h3>Drop image here or click to browse</h3>
+                            <p>Supports JPG, PNG, GIF (Max: 5MB)</p>
+                            <input type="file" id="fileInput" accept="image/*" hidden>
+                            <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
+                                Browse Files
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Area -->
+                    <div class="camera-area" id="cameraArea">
+                        <div class="camera-preview">
+                            <video id="cameraVideo" autoplay playsinline></video>
+                            <canvas id="cameraCanvas" hidden></canvas>
+                        </div>
+                        <div class="camera-controls">
+                            <button id="startCamera" class="action-btn">
+                                <i class="fas fa-camera"></i> Start Camera
+                            </button>
+                            <button id="capturePhoto" class="action-btn" disabled>
+                                <i class="fas fa-camera-retro"></i> Capture
+                            </button>
+                            <button id="stopCamera" class="action-btn secondary" disabled>
+                                <i class="fas fa-stop"></i> Stop Camera
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- URL Area -->
+                    <div class="url-area" id="urlArea">
+                        <div class="url-input">
+                            <input type="url" id="imageUrl" placeholder="Enter image URL...">
+                            <button id="loadUrl" class="action-btn">
+                                <i class="fas fa-download"></i> Load Image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Preview -->
+                <div class="preview-section">
+                    <h3>Image Preview</h3>
+                    <div id="imagePreview" class="image-preview">
+                        <div class="preview-placeholder">
+                            <i class="fas fa-image fa-3x"></i>
+                            <p>No image selected</p>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-actions">
+                        <button id="scanImage" class="action-btn" disabled>
+                            <i class="fas fa-search"></i> Scan Text
+                        </button>
+                        <button id="clearImage" class="action-btn secondary">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- OCR Results -->
+                <div class="ocr-results">
+                    <h3>Extracted Text</h3>
+                    <div class="ocr-controls">
+                        <select id="ocrLanguage">
+                            <option value="eng">English</option>
+                            <option value="spa">Spanish</option>
+                            <option value="fra">French</option>
+                            <option value="deu">German</option>
+                            <option value="ita">Italian</option>
+                            <option value="por">Portuguese</option>
+                            <option value="rus">Russian</option>
+                            <option value="chi_sim">Chinese</option>
+                            <option value="jpn">Japanese</option>
+                            <option value="kor">Korean</option>
+                            <option value="hin">Hindi</option>
+                            <option value="ara">Arabic</option>
+                        </select>
+                        <button id="editText" class="action-btn secondary">
+                            <i class="fas fa-edit"></i> Edit Text
+                        </button>
+                    </div>
+                    
+                    <div id="ocrResult" class="ocr-result">
+                        <div class="result-placeholder">
+                            <i class="fas fa-font fa-2x"></i>
+                            <p>Extracted text will appear here</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translation Section -->
+                <div class="translation-section">
+                    <h3>Translation</h3>
+                    <div class="translation-controls">
+                        <select id="translationLanguage">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ar">Arabic</option>
+                        </select>
+                        <button id="translateText" class="action-btn" disabled>
+                            <i class="fas fa-language"></i> Translate
+                        </button>
+                    </div>
+                    
+                    <div id="translationResult" class="translation-result">
+                        <div class="result-placeholder">
+                            <i class="fas fa-globe fa-2x"></i>
+                            <p>Translation will appear here</p>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button id="copyTranslation" class="action-btn" disabled>
+                            <i class="fas fa-copy"></i> Copy Translation
+                        </button>
+                        <button id="speakTranslation" class="action-btn" disabled>
+                            <i class="fas fa-volume-up"></i> Speak Translation
+                        </button>
+                        <button id="saveResult" class="action-btn secondary">
+                            <i class="fas fa-save"></i> Save Result
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tips & Best Practices -->
+                <div class="scan-tips">
+                    <h3><i class="fas fa-lightbulb"></i> Tips for Better OCR Results</h3>
+                    <div class="tips-grid">
+                        <div class="tip-item">
+                            <i class="fas fa-sun"></i>
+                            <strong>Good Lighting</strong>
+                            <p>Ensure the image is well-lit without shadows</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-align-left"></i>
+                            <strong>Clear Text</strong>
+                            <p>Use clear, high-contrast fonts</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-crop"></i>
+                            <strong>Straight Alignment</strong>
+                            <p>Keep text horizontal and avoid perspective distortion</p>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-expand"></i>
+                            <strong>High Resolution</strong>
+                            <p>Use high-resolution images for better accuracy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/scan.js"></script>
+</body>
+</html>

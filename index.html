@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Translate Pro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-language"></i> Universal Translate Pro</h1>
+            <p>Translate languages, animal sounds, Morse code, and sign language</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Feature Grid -->
+            <div class="feature-grid">
+                <!-- Audio Translation Card -->
+                <div class="feature-card" onclick="navigateTo('audio.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3>Audio Translation</h3>
+                    <p>Translate spoken languages and animal sounds through microphone input</p>
+                    <div class="card-badge">Voice & Animal Sounds</div>
+                </div>
+
+                <!-- Sign Language Card -->
+                <div class="feature-card" onclick="navigateTo('camera.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Sign Language</h3>
+                    <p>Translate sign language through camera video input</p>
+                    <div class="card-badge">Video Input</div>
+                </div>
+
+                <!-- Text Translation Card -->
+                <div class="feature-card" onclick="navigateTo('text.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-text-height"></i>
+                    </div>
+                    <h3>Text Translation</h3>
+                    <p>Translate text between multiple languages</p>
+                    <div class="card-badge">100+ Languages</div>
+                </div>
+
+                <!-- Morse Code Card -->
+                <div class="feature-card" onclick="navigateTo('morse.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Morse Code</h3>
+                    <p>Encode and decode Morse code messages</p>
+                    <div class="card-badge">Encode/Decode</div>
+                </div>
+
+                <!-- Scan Translation Card -->
+                <div class="feature-card" onclick="navigateTo('scan.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Scan & Translate</h3>
+                    <p>Scan text from images and translate instantly</p>
+                    <div class="card-badge">OCR Technology</div>
+                </div>
+
+                <!-- Settings Card -->
+                <div class="feature-card" onclick="showSettings()">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Settings</h3>
+                    <p>Configure app preferences and language settings</p>
+                    <div class="card-badge">Configuration</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h2>Quick Translate</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="startQuickAudio()">
+                        <i class="fas fa-microphone"></i>
+                        Quick Voice Translate
+                    </button>
+                    <button class="action-btn" onclick="startQuickText()">
+                        <i class="fas fa-keyboard"></i>
+                        Quick Text Translate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Universal Translate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
